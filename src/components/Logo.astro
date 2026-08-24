@@ -1,0 +1,30 @@
+---
+interface Props {
+	compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+---
+
+<span class:list={['brand', { compact }]}>
+	<svg width="48" height="50" viewBox="0 0 48 50" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Packager">
+		<path d="M24 3.5 L44 15 L24 26.5 L4 15 Z" fill="#ecbd74"></path>
+		<path d="M4 15 L24 26.5 L24 48.5 L4 37 Z" fill="#bd6a43"></path>
+		<path d="M44 15 L24 26.5 L24 48.5 L44 37 Z" fill="#a85a36"></path>
+		<path d="M7.6 25.4 L20.4 32.8 L20.4 38 L7.6 30.6 Z" fill="#5f7355"></path>
+		<g stroke="#7a3f25" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" fill="none" opacity="0.55">
+			<path d="M24 26.5 L24 48.5"></path>
+			<path d="M4 15 L24 26.5 L44 15"></path>
+		</g>
+	</svg>
+	<span class="wordmark">pack<em>ager</em><small>docs</small></span>
+</span>
+
+<style>
+	.brand { display: inline-flex; align-items: center; gap: 0.7rem; color: var(--text-strong); }
+	svg { width: 30px; height: 31px; flex: none; }
+	.wordmark { display: inline-flex; align-items: baseline; font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; letter-spacing: -0.035em; }
+	em { color: var(--brand-primary); font-style: normal; }
+	small { margin-left: 0.55rem; padding-left: 0.55rem; border-left: 1px solid var(--border-default); color: var(--text-muted); font: 600 0.72rem/1 var(--font-mono); letter-spacing: 0; }
+	.compact small { display: none; }
+</style>

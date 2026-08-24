@@ -1,0 +1,104 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import Logo from '@/components/Logo.astro';
+import SearchDialog from '@/components/SearchDialog.astro';
+import { docPath, groupDocs, sortDocs, type DocEntry } from '@/lib/docs';
+
+interface Props {
+	entry: DocEntry;
+	headings: { depth: number; slug: string; text: string }[];
+}
+
+const { entry, headings } = Astro.props;
+const entries = sortDocs(await getCollection('docs'));
+const groups = groupDocs([...entries]);
+const currentIndex = entries.findIndex((item) => item.id === entry.id);
+const previous = currentIndex > 0 ? entries[currentIndex - 1] : undefined;
+const next = currentIndex < entries.length - 1 ? entries[currentIndex + 1] : undefined;
+const toc = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+---
+
+<BaseLayout title={entry.data.title} description={entry.data.description}>
+	<header class="site-header" data-pagefind-ignore>
+		<a class="site-logo" href="/" aria-label="Packager.io documentation home"><Logo /></a>
+		<div class="header-center"><SearchDialog /></div>
+		<nav class="header-links" aria-label="External links">
+			<a href="https://go.packager.io">Package repositories</a>
+			<a href="https://github.com/pkgr/action">GitHub</a>
+		</nav>
+		<button class="menu-button" id="menu-button" type="button" aria-expanded="false" aria-controls="docs-sidebar">
+			<span class="sr-only">Open documentation menu</span>
+			<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+		</button>
+	</header>
+
+	<div class="docs-grid">
+		<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+		<aside class="docs-sidebar" id="docs-sidebar" data-pagefind-ignore>
+			<nav aria-label="Documentation">
+				{groups.map(([group, items]) => (
+					<section class="nav-group">
+						<h2>{group}</h2>
+						<ul>
+							{items.map((item) => (
+								<li><a href={docPath(item)} aria-current={item.id === entry.id ? 'page' : undefined}>{item.data.label ?? item.data.title}</a></li>
+							))}
+						</ul>
+					</section>
+				))}
+			</nav>
+			<div class="sidebar-help">
+				<strong>Need a token?</strong>
+				<span>We’ll set up your organization.</span>
+				<a href="mailto:support@packager.io">Email support →</a>
+			</div>
+		</aside>
+
+		<main id="main-content" class="docs-main" data-pagefind-body>
+			<div class="doc-kicker">{entry.data.navGroup}</div>
+			<h1>{entry.data.title}</h1>
+			<p class="doc-description">{entry.data.description}</p>
+			<article class="prose">
+				<slot />
+			</article>
+			<nav class="page-nav" aria-label="Previous and next pages" data-pagefind-ignore>
+				{previous ? <a class="previous" href={docPath(previous)}><span>Previous</span><strong>← {previous.data.label ?? previous.data.title}</strong></a> : <span></span>}
+				{next ? <a class="next" href={docPath(next)}><span>Next</span><strong>{next.data.label ?? next.data.title} →</strong></a> : <span></span>}
+			</nav>
+			<footer class="doc-footer" data-pagefind-ignore>
+				<span>Packager.io · DEB &amp; RPM, done right.</span>
+				<a href="mailto:support@packager.io">support@packager.io</a>
+			</footer>
+		</main>
+
+		<aside class="docs-toc" aria-label="On this page" data-pagefind-ignore>
+			{toc.length > 0 && (
+				<>
+					<h2>On this page</h2>
+					<ul>{toc.map((heading) => <li class:list={{ nested: heading.depth === 3 }}><a href={`#${heading.slug}`}>{heading.text}</a></li>)}</ul>
+				</>
+			)}
+			<a class="toc-support" href="mailto:support@packager.io">Questions? Email support ↗</a>
+		</aside>
+	</div>
+</BaseLayout>
+
+<script>
+	const menuButton = document.querySelector<HTMLButtonElement>('#menu-button');
+	const sidebar = document.querySelector<HTMLElement>('#docs-sidebar');
+	const backdrop = document.querySelector<HTMLElement>('#sidebar-backdrop');
+	const closeMenu = () => {
+		document.body.classList.remove('menu-open');
+		menuButton?.setAttribute('aria-expanded', 'false');
+	};
+	menuButton?.addEventListener('click', () => {
+		const open = document.body.classList.toggle('menu-open');
+		menuButton.setAttribute('aria-expanded', String(open));
+		if (open) sidebar?.querySelector<HTMLAnchorElement>('a')?.focus();
+	});
+	backdrop?.addEventListener('click', closeMenu);
+	document.addEventListener('keydown', (event) => {
+		if (event.key === 'Escape' && document.body.classList.contains('menu-open')) closeMenu();
+	});
+</script>

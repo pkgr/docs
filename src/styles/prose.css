@@ -1,0 +1,28 @@
+.prose { color: var(--text-body); font-size: 1rem; line-height: 1.72; }
+.prose > :first-child { margin-top: 0; }
+.prose h2, .prose h3, .prose h4 { color: var(--text-strong); font-family: var(--font-display); letter-spacing: -0.025em; scroll-margin-top: 5.5rem; }
+.prose h2 { margin: 3.25rem 0 1rem; padding-top: 0.25rem; font-size: 1.65rem; line-height: 1.18; }
+.prose h3 { margin: 2.2rem 0 0.7rem; font-size: 1.2rem; line-height: 1.25; }
+.prose p { margin: 1rem 0; text-wrap: pretty; }
+.prose a { color: var(--clay-700); text-decoration: underline; text-decoration-color: color-mix(in oklab, var(--clay-500) 35%, transparent); text-underline-offset: 0.2em; }
+.prose a:hover { text-decoration-color: currentColor; }
+.prose strong { color: var(--text-strong); font-weight: 700; }
+.prose code:not(pre code) { padding: 0.16em 0.35em; color: var(--clay-700); background: var(--clay-100); border: 1px solid color-mix(in oklab, var(--clay-300) 55%, transparent); border-radius: 5px; font: 500 0.84em var(--font-mono); overflow-wrap: anywhere; }
+.prose ul, .prose ol { margin: 1rem 0; padding-left: 1.4rem; }
+.prose li { padding-left: 0.25rem; }
+.prose li + li { margin-top: 0.35rem; }
+.prose li::marker { color: var(--clay-500); font-weight: 700; }
+.prose blockquote { position: relative; margin: 1.5rem 0; padding: 1rem 1.15rem 1rem 3.1rem; color: var(--text-body); background: var(--sage-100); border: 1px solid color-mix(in oklab, var(--sage-600) 23%, var(--border-default)); border-radius: var(--radius-md); }
+.prose blockquote::before { content: 'i'; position: absolute; top: 1rem; left: 1rem; display: grid; width: 1.35rem; height: 1.35rem; place-items: center; color: var(--paper); background: var(--sage-600); border-radius: 50%; font: 700 0.76rem var(--font-display); }
+.prose blockquote p { margin: 0; }
+.prose table { display: block; width: 100%; margin: 1.5rem 0; overflow-x: auto; border-collapse: collapse; font-size: 0.87rem; }
+.prose th, .prose td { padding: 0.65rem 0.75rem; text-align: left; border: 1px solid var(--border-default); vertical-align: top; }
+.prose th { color: var(--text-strong); background: var(--surface-sunken); font: 700 0.79rem var(--font-display); }
+.prose hr { margin: 3rem 0; border: 0; border-top: 1px solid var(--border-default); }
+.prose .expressive-code { margin: 1.4rem 0; }
+.prose .expressive-code .frame { box-shadow: 0 8px 24px -18px var(--bark-950); }
+.prose .feature-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; margin: 1.5rem 0 2.5rem; }
+.prose .feature-grid > div { padding: 1rem; background: var(--surface-page); border: 1px solid var(--border-default); border-radius: var(--radius-md); }
+.prose .feature-grid strong { display: block; margin-bottom: 0.25rem; font-family: var(--font-display); }
+.prose .feature-grid p { margin: 0; color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
+@media (max-width: 560px) { .prose .feature-grid { grid-template-columns: 1fr; } .prose h2 { font-size: 1.45rem; } }
