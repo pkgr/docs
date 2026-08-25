@@ -20,13 +20,19 @@ Email [support@packager.io](mailto:support@packager.io) with your GitHub organiz
 
 ## 1. Install packagehall-ctl
 
-Install the current CLI on Linux or macOS:
+If you use [mise](https://mise.jdx.dev), install the latest release globally from GitHub:
+
+```bash
+mise use --global github:pkgr/packagehall-ctl
+```
+
+Otherwise, use the install script on Linux or macOS:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/pkgr/packagehall-ctl/main/install.sh | sh
 ```
 
-The installer selects the correct binary for your operating system and architecture. You can also download a binary from the [packagehall-ctl releases](https://github.com/pkgr/packagehall-ctl/releases).
+Both methods select the correct binary for your operating system and architecture. You can also download a binary from the [packagehall-ctl releases](https://github.com/pkgr/packagehall-ctl/releases).
 
 ## 2. Configure the CLI
 
